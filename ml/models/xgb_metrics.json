@@ -1,0 +1,62 @@
+{
+  "model": "XGBClassifier",
+  "n_estimators": 300,
+  "max_depth": 6,
+  "n_train": 4640,
+  "n_val": 1160,
+  "overall_accuracy": 1.0,
+  "per_class": {
+    "normal": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "port_scan": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "failed_auth": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "dns_anomaly": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "traffic_spike": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "c2_beacon": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "data_exfil": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "eicar_test": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "top_features": {
+    "payload_entropy": 0.173698,
+    "failed_attempts_log": 0.117934,
+    "unique_dst_ports_log": 0.106111,
+    "dns_subdomain_count": 0.078885,
+    "dns_query_length": 0.077173,
+    "byte_count_log": 0.06085,
+    "has_payload": 0.056833,
+    "packet_count_log": 0.049424,
+    "dns_entropy": 0.04862,
+    "proto_SMTP": 0.043749
+  }
+}

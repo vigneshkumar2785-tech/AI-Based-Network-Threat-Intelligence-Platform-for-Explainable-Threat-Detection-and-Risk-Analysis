@@ -1,0 +1,11 @@
+{
+  "model": "IsolationForest",
+  "n_estimators": 200,
+  "contamination": 0.483,
+  "n_train": 4640,
+  "n_val": 1160,
+  "anomaly_precision": 0.932,
+  "anomaly_recall": 0.9354,
+  "anomaly_f1": 0.9337,
+  "accuracy": 0.9362
+}

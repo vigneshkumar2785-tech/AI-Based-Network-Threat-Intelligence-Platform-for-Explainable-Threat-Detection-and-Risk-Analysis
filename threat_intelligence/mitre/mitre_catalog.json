@@ -1,0 +1,159 @@
+{
+  "techniques": {
+    "T1046": {
+      "name": "Network Service Scanning",
+      "tactic": "Discovery",
+      "tactic_id": "TA0007",
+      "description": "Adversaries may attempt to get a listing of services running on remote hosts.",
+      "platforms": ["Linux", "Windows", "macOS", "Network"],
+      "event_type_hints": ["port_scan"],
+      "evidence_fields": {
+        "unique_dst_ports": {"operator": "gte", "threshold": 20},
+        "protocol": {"operator": "in", "values": ["TCP", "UDP", "ICMP"]}
+      },
+      "detection_note": "High unique destination port count from a single source IP."
+    },
+    "T1110": {
+      "name": "Brute Force",
+      "tactic": "Credential Access",
+      "tactic_id": "TA0006",
+      "description": "Adversaries may use brute force techniques to gain access to accounts when passwords are unknown.",
+      "platforms": ["Linux", "Windows", "macOS", "Cloud"],
+      "event_type_hints": ["failed_auth"],
+      "evidence_fields": {
+        "failed_attempts": {"operator": "gte", "threshold": 10},
+        "dst_port": {"operator": "in", "values": [22, 3389, 21, 25, 110, 8080]}
+      },
+      "detection_note": "Repeated failed authentication attempts against a service port."
+    },
+    "T1078": {
+      "name": "Valid Accounts",
+      "tactic": "Initial Access",
+      "tactic_id": "TA0001",
+      "description": "Adversaries may obtain and abuse credentials of existing accounts as a means of gaining Initial Access.",
+      "platforms": ["Linux", "Windows", "macOS", "Cloud"],
+      "event_type_hints": ["failed_auth"],
+      "evidence_fields": {
+        "failed_attempts": {"operator": "gte", "threshold": 50},
+        "dst_port": {"operator": "in", "values": [22, 3389, 21, 445, 389]}
+      },
+      "detection_note": "High volume of authentication failures suggesting credential stuffing."
+    },
+    "T1071.004": {
+      "name": "Application Layer Protocol: DNS",
+      "tactic": "Command and Control",
+      "tactic_id": "TA0011",
+      "description": "Adversaries may communicate using the Domain Name System (DNS) application layer protocol to avoid detection.",
+      "platforms": ["Linux", "Windows", "macOS"],
+      "event_type_hints": ["dns_anomaly"],
+      "evidence_fields": {
+        "dns_query_length": {"operator": "gte", "threshold": 40},
+        "dns_subdomain_count": {"operator": "gte", "threshold": 3},
+        "dns_entropy": {"operator": "gte", "threshold": 3.5}
+      },
+      "detection_note": "Long DNS queries with high entropy subdomains indicate DNS tunneling."
+    },
+    "T1048.003": {
+      "name": "Exfiltration Over Alternative Protocol: Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol",
+      "tactic": "Exfiltration",
+      "tactic_id": "TA0010",
+      "description": "Adversaries may steal data by exfiltrating it over a symmetric encrypted network protocol other than that of the existing command and control channel.",
+      "platforms": ["Linux", "Windows", "macOS"],
+      "event_type_hints": ["dns_anomaly", "data_exfil"],
+      "evidence_fields": {
+        "bytes_out_ratio": {"operator": "gte", "threshold": 0.7},
+        "is_external_dst": {"operator": "eq", "threshold": 1}
+      },
+      "detection_note": "High bytes_out_ratio to external destination suggests data exfiltration."
+    },
+    "T1041": {
+      "name": "Exfiltration Over C2 Channel",
+      "tactic": "Exfiltration",
+      "tactic_id": "TA0010",
+      "description": "Adversaries may steal data by exfiltrating it over an existing command and control channel.",
+      "platforms": ["Linux", "Windows", "macOS"],
+      "event_type_hints": ["data_exfil", "c2_beacon"],
+      "evidence_fields": {
+        "byte_count": {"operator": "gte", "threshold": 1000000},
+        "bytes_out_ratio": {"operator": "gte", "threshold": 0.8},
+        "is_external_dst": {"operator": "eq", "threshold": 1}
+      },
+      "detection_note": "Large outbound transfer to external IP consistent with C2 exfiltration."
+    },
+    "T1071.001": {
+      "name": "Application Layer Protocol: Web Protocols",
+      "tactic": "Command and Control",
+      "tactic_id": "TA0011",
+      "description": "Adversaries may communicate using application layer protocols associated with web traffic.",
+      "platforms": ["Linux", "Windows", "macOS"],
+      "event_type_hints": ["c2_beacon"],
+      "evidence_fields": {
+        "dst_port": {"operator": "in", "values": [80, 443, 8080, 8443]},
+        "connection_interval_std": {"operator": "lte", "threshold": 5000},
+        "byte_count": {"operator": "lte", "threshold": 10000}
+      },
+      "detection_note": "Regular low-byte connections over HTTP/HTTPS indicate C2 beaconing."
+    },
+    "T1573": {
+      "name": "Encrypted Channel",
+      "tactic": "Command and Control",
+      "tactic_id": "TA0011",
+      "description": "Adversaries may employ a known encryption algorithm to conceal command and control traffic.",
+      "platforms": ["Linux", "Windows", "macOS"],
+      "event_type_hints": ["c2_beacon", "data_exfil"],
+      "evidence_fields": {
+        "dst_port": {"operator": "in", "values": [443, 8443, 993, 465]},
+        "protocol": {"operator": "in", "values": ["HTTPS", "TLS", "SSL"]}
+      },
+      "detection_note": "Encrypted protocol to suspicious external endpoint."
+    },
+    "T1498": {
+      "name": "Network Denial of Service",
+      "tactic": "Impact",
+      "tactic_id": "TA0040",
+      "description": "Adversaries may perform Network DoS attacks to degrade or block the availability of targeted resources.",
+      "platforms": ["Linux", "Windows", "macOS", "Network"],
+      "event_type_hints": ["traffic_spike"],
+      "evidence_fields": {
+        "byte_count": {"operator": "gte", "threshold": 100000000},
+        "packet_count": {"operator": "gte", "threshold": 100000}
+      },
+      "detection_note": "Extremely high packet/byte count consistent with flooding or DDoS."
+    },
+    "T1105": {
+      "name": "Ingress Tool Transfer",
+      "tactic": "Command and Control",
+      "tactic_id": "TA0011",
+      "description": "Adversaries may transfer tools or other files from an external system into a compromised environment.",
+      "platforms": ["Linux", "Windows", "macOS"],
+      "event_type_hints": ["eicar_test"],
+      "evidence_fields": {
+        "has_payload": {"operator": "eq", "threshold": 1},
+        "payload_entropy": {"operator": "gte", "threshold": 3.0}
+      },
+      "detection_note": "File transfer with notable payload entropy, consistent with tool staging."
+    },
+    "T1204": {
+      "name": "User Execution",
+      "tactic": "Execution",
+      "tactic_id": "TA0002",
+      "description": "An adversary may rely upon specific actions by a user in order to gain execution.",
+      "platforms": ["Linux", "Windows", "macOS"],
+      "event_type_hints": ["eicar_test"],
+      "evidence_fields": {
+        "has_payload": {"operator": "eq", "threshold": 1},
+        "dst_port": {"operator": "in", "values": [80, 8080, 21, 445]}
+      },
+      "detection_note": "Potential user-triggered file execution via web or file transfer."
+    }
+  },
+  "tactics": {
+    "TA0001": "Initial Access",
+    "TA0002": "Execution",
+    "TA0006": "Credential Access",
+    "TA0007": "Discovery",
+    "TA0010": "Exfiltration",
+    "TA0011": "Command and Control",
+    "TA0040": "Impact"
+  }
+}

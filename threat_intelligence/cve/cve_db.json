@@ -1,0 +1,137 @@
+{
+  "by_port": {
+    "22": [
+      {
+        "cve_id": "CVE-2023-38408",
+        "cvss_v3": 9.8,
+        "severity": "CRITICAL",
+        "service": "OpenSSH",
+        "description": "Remote code execution vulnerability in OpenSSH ssh-agent. Allows arbitrary library loading in forwarded ssh-agent.",
+        "published": "2023-07-19",
+        "affected_versions": "OpenSSH < 9.3p2"
+      },
+      {
+        "cve_id": "CVE-2024-6387",
+        "cvss_v3": 8.1,
+        "severity": "HIGH",
+        "service": "OpenSSH",
+        "description": "Signal handler race condition in OpenSSH server (regreSSHion). Unauthenticated remote code execution as root on glibc-based Linux systems.",
+        "published": "2024-07-01",
+        "affected_versions": "OpenSSH 8.5p1 – 9.7p1"
+      }
+    ],
+    "3389": [
+      {
+        "cve_id": "CVE-2019-0708",
+        "cvss_v3": 9.8,
+        "severity": "CRITICAL",
+        "service": "Microsoft RDP (BlueKeep)",
+        "description": "Remote code execution vulnerability in Remote Desktop Services. Wormable pre-auth RCE with no user interaction required.",
+        "published": "2019-05-14",
+        "affected_versions": "Windows 7, Server 2008 R2"
+      },
+      {
+        "cve_id": "CVE-2021-34535",
+        "cvss_v3": 8.8,
+        "severity": "HIGH",
+        "service": "Microsoft RDP",
+        "description": "Remote Desktop Client remote code execution vulnerability.",
+        "published": "2021-08-10",
+        "affected_versions": "Windows 10, Server 2019"
+      }
+    ],
+    "445": [
+      {
+        "cve_id": "CVE-2017-0144",
+        "cvss_v3": 8.1,
+        "severity": "HIGH",
+        "service": "SMBv1 (EternalBlue)",
+        "description": "SMB remote code execution vulnerability exploited by WannaCry and NotPetya ransomware.",
+        "published": "2017-03-14",
+        "affected_versions": "Windows XP – Windows Server 2016"
+      }
+    ],
+    "53": [
+      {
+        "cve_id": "CVE-2020-1350",
+        "cvss_v3": 10.0,
+        "severity": "CRITICAL",
+        "service": "Windows DNS Server (SIGRed)",
+        "description": "Wormable heap-based buffer overflow in Windows DNS Server. Pre-auth remote code execution.",
+        "published": "2020-07-14",
+        "affected_versions": "Windows Server 2003 – 2019"
+      }
+    ],
+    "80": [
+      {
+        "cve_id": "CVE-2021-41773",
+        "cvss_v3": 7.5,
+        "severity": "HIGH",
+        "service": "Apache HTTP Server",
+        "description": "Path traversal and remote code execution in Apache HTTP Server 2.4.49. Actively exploited in the wild.",
+        "published": "2021-10-04",
+        "affected_versions": "Apache 2.4.49"
+      }
+    ],
+    "443": [
+      {
+        "cve_id": "CVE-2021-44228",
+        "cvss_v3": 10.0,
+        "severity": "CRITICAL",
+        "service": "Apache Log4j (Log4Shell)",
+        "description": "JNDI injection remote code execution in Log4j 2. One of the most exploited vulnerabilities in 2021–2022.",
+        "published": "2021-12-09",
+        "affected_versions": "log4j2 2.0-beta9 – 2.14.1"
+      },
+      {
+        "cve_id": "CVE-2022-26134",
+        "cvss_v3": 9.8,
+        "severity": "CRITICAL",
+        "service": "Atlassian Confluence",
+        "description": "OGNL injection pre-auth RCE in Confluence Server and Data Center. Actively exploited.",
+        "published": "2022-06-02",
+        "affected_versions": "Confluence Server & DC < 7.18.0"
+      }
+    ],
+    "21": [
+      {
+        "cve_id": "CVE-2015-3306",
+        "cvss_v3": 10.0,
+        "severity": "CRITICAL",
+        "service": "ProFTPD",
+        "description": "Unauthenticated remote code execution in ProFTPD via mod_copy module.",
+        "published": "2015-05-18",
+        "affected_versions": "ProFTPD < 1.3.5"
+      }
+    ],
+    "25": [
+      {
+        "cve_id": "CVE-2020-7247",
+        "cvss_v3": 9.8,
+        "severity": "CRITICAL",
+        "service": "OpenSMTPD",
+        "description": "Remote code execution in OpenSMTPD smtp_mailaddr() function.",
+        "published": "2020-01-29",
+        "affected_versions": "OpenSMTPD < 6.6.2"
+      }
+    ],
+    "8080": [
+      {
+        "cve_id": "CVE-2020-9484",
+        "cvss_v3": 7.0,
+        "severity": "HIGH",
+        "service": "Apache Tomcat",
+        "description": "Deserialization RCE via PersistentManager session persistence in Apache Tomcat.",
+        "published": "2020-05-20",
+        "affected_versions": "Tomcat 9.0.0.M1 – 9.0.34"
+      }
+    ]
+  },
+  "by_service": {
+    "FTP": ["CVE-2015-3306"],
+    "SMB": ["CVE-2017-0144"],
+    "SSH": ["CVE-2023-38408", "CVE-2024-6387"],
+    "RDP": ["CVE-2019-0708", "CVE-2021-34535"],
+    "DNS": ["CVE-2020-1350"]
+  }
+}
