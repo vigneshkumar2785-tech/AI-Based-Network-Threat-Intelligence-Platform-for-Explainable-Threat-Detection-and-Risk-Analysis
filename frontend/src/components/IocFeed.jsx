@@ -12,47 +12,45 @@ const SAMPLE_IOCS = [
 
 export default function IocFeed() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [typeFilter, setTypeFilter] = useState('all');
 
   const filtered = SAMPLE_IOCS.filter(ioc => {
     const matchesSearch = ioc.value.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           ioc.context.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = typeFilter === 'all' || ioc.ioc_type === typeFilter;
-    return matchesSearch && matchesType;
+    return matchesSearch;
   });
 
   return (
-    <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-6">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+    <div className="glass-panel rounded-2xl p-6 border border-[#E1E8E5] bg-white space-y-6 shadow-sm">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[#E1E8E5] pb-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-            <Database className="w-5 h-5 text-cyan-400" />
+          <h2 className="text-lg font-bold text-[#001E2B] flex items-center gap-2">
+            <Database className="w-5 h-5 text-[#00684A]" />
             Threat Indicators of Compromise (IOC Feed)
           </h2>
-          <p className="text-xs text-slate-400 font-mono">
+          <p className="text-xs text-[#5C6C64] font-mono">
             Extracted IP addresses, DGA domains, payload hashes & test artifacts with reputation scores.
           </p>
         </div>
 
-        {/* Search & Filter Bar */}
+        {/* Search Bar */}
         <div className="flex items-center gap-3 w-full md:w-auto">
           <div className="relative flex-1 md:w-64">
-            <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-500" />
+            <Search className="w-4 h-4 absolute left-3 top-2.5 text-[#5C6C64]" />
             <input
               type="text"
               placeholder="Search IP, domain, hash..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-500/50"
+              className="w-full bg-[#F9FBF9] border border-[#E1E8E5] rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#001E2B] font-mono focus:outline-none focus:border-[#00684A]"
             />
           </div>
         </div>
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl border border-slate-800/80">
+      <div className="overflow-x-auto rounded-xl border border-[#E1E8E5]">
         <table className="w-full text-left font-mono text-xs">
-          <thead className="bg-slate-900/90 text-slate-400 uppercase text-[10px] border-b border-slate-800">
+          <thead className="bg-[#F0F4F2] text-[#001E2B] uppercase text-[10px] border-b border-[#E1E8E5] font-bold">
             <tr>
               <th className="p-3">Type</th>
               <th className="p-3">Indicator Value</th>
@@ -62,24 +60,24 @@ export default function IocFeed() {
               <th className="p-3">Last Seen</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/60 bg-slate-950/60">
+          <tbody className="divide-y divide-[#E1E8E5] bg-white">
             {filtered.map((ioc) => (
-              <tr key={ioc.id} className="hover:bg-slate-900/40 transition-colors">
-                <td className="p-3 font-bold text-cyan-400 uppercase">{ioc.ioc_type}</td>
-                <td className="p-3 font-semibold text-slate-100">{ioc.value}</td>
+              <tr key={ioc.id} className="hover:bg-[#F9FBF9] transition-colors">
+                <td className="p-3 font-bold text-[#00684A] uppercase">{ioc.ioc_type}</td>
+                <td className="p-3 font-bold text-[#001E2B]">{ioc.value}</td>
                 <td className="p-3">
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                    ioc.reputation === 'malicious' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' :
-                    ioc.reputation === 'test_artifact' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
-                    ioc.reputation === 'suspicious' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
-                    'bg-slate-800 text-slate-400'
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${
+                    ioc.reputation === 'malicious' ? 'bg-rose-50 text-rose-800 border-rose-200' :
+                    ioc.reputation === 'test_artifact' ? 'bg-[#E6F4EA] text-[#00684A] border-[#C1E7D0]' :
+                    ioc.reputation === 'suspicious' ? 'bg-amber-50 text-amber-800 border-amber-200' :
+                    'bg-slate-100 text-slate-700 border-slate-200'
                   }`}>
                     {ioc.reputation}
                   </span>
                 </td>
-                <td className="p-3 font-bold text-rose-400">{(ioc.score * 100).toFixed(0)}%</td>
-                <td className="p-3 text-slate-400 font-sans text-[11px]">{ioc.context}</td>
-                <td className="p-3 text-slate-500 text-[10px]">{ioc.last_seen}</td>
+                <td className="p-3 font-bold text-rose-700">{(ioc.score * 100).toFixed(0)}%</td>
+                <td className="p-3 text-[#1C2D27] font-sans text-[11px] font-medium">{ioc.context}</td>
+                <td className="p-3 text-[#5C6C64] text-[10px] font-semibold">{ioc.last_seen}</td>
               </tr>
             ))}
           </tbody>

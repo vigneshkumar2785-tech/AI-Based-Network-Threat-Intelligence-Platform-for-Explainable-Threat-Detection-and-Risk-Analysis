@@ -37,6 +37,27 @@ class TokenData(BaseModel):
 class TriggerEventRequest(BaseModel):
     event_type: str = "port_scan"  # normal, port_scan, failed_auth, dns_anomaly, traffic_spike, c2_beacon, data_exfil, eicar_test
 
+class IngestRawEventRequest(BaseModel):
+    src_ip: Optional[str] = "192.168.1.100"
+    dst_ip: Optional[str] = "10.0.0.1"
+    src_port: Optional[int] = 49152
+    dst_port: Optional[int] = 80
+    protocol: Optional[str] = "TCP"
+    byte_count: Optional[int] = 1000
+    packet_count: Optional[int] = 10
+    duration_ms: Optional[int] = 100
+    unique_dst_ports: Optional[int] = 1
+    failed_attempts: Optional[int] = 0
+    dns_query: Optional[str] = ""
+    dns_query_length: Optional[int] = 0
+    dns_subdomain_count: Optional[int] = 0
+    dns_entropy: Optional[float] = 0.0
+    connection_interval_std: Optional[float] = 100.0
+    bytes_out_ratio: Optional[float] = 0.5
+    is_external_dst: Optional[int] = 1
+    payload_snippet: Optional[str] = None
+    event_type: Optional[str] = "external_ingest"
+
 class EventResponse(BaseModel):
     id: str
     event_id: str

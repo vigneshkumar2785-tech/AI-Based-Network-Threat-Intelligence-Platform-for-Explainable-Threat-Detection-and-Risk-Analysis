@@ -31,14 +31,13 @@ export default function App() {
 
   const handleEventProcessed = (result) => {
     setLastTriggeredResult(result);
-    // Refresh incidents if created
     if (result.incident) {
       setIncidents(prev => [result.incident, ...prev]);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
+    <div className="min-h-screen bg-[#F9FBF9] text-[#1C2D27] flex flex-col font-sans selection:bg-[#00ED64] selection:text-[#001E2B]">
       {/* Navigation Header */}
       <Header
         activeTab={activeTab}
@@ -69,12 +68,12 @@ export default function App() {
             <LiveSimulator onEventProcessed={handleEventProcessed} />
             {lastTriggeredResult && (
               <div className="space-y-6">
-                <div className="p-5 bg-slate-900/90 rounded-2xl border border-cyan-500/40 font-mono text-xs space-y-3">
-                  <div className="flex items-center justify-between text-cyan-400 font-bold">
+                <div className="p-5 bg-[#E6F4EA] rounded-2xl border border-[#C1E7D0] font-mono text-xs space-y-3 shadow-xs">
+                  <div className="flex items-center justify-between text-[#00684A] font-bold">
                     <span>LIVE EVENT RESULT: {lastTriggeredResult.event_type.toUpperCase()}</span>
                     <span>RISK SCORE: {lastTriggeredResult.risk_score}/100 ({lastTriggeredResult.risk_level.toUpperCase()})</span>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-slate-300">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-[#1C2D27] font-semibold">
                     <div>Src: {lastTriggeredResult.src_ip}</div>
                     <div>Dst: {lastTriggeredResult.dst_ip}:{lastTriggeredResult.dst_port}</div>
                     <div>Proto: {lastTriggeredResult.protocol}</div>
@@ -136,8 +135,8 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950 py-4 px-6 text-center text-xs text-slate-500 font-mono">
-        AI Network Threat Intelligence Platform — Interactive Portfolio Edition &copy; 2026. Built with React 18, FastAPI & XGBoost.
+      <footer className="border-t border-[#E1E8E5] bg-white py-4 px-6 text-center text-xs text-[#5C6C64] font-mono font-medium">
+        Aegis Threat Intelligence Platform — MongoDB LeafyGreen Theme Edition &copy; 2026. Built with React 18, FastAPI & XGBoost.
       </footer>
     </div>
   );

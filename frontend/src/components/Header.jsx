@@ -14,27 +14,27 @@ export default function Header({ activeTab, setActiveTab, liveAlertCount = 0 }) 
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800 text-slate-100 px-4 py-3 shadow-xl">
+    <header className="sticky top-0 z-50 bg-[#001E2B] text-slate-100 px-4 py-3 shadow-md border-b border-[#003847]">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        {/* Brand & Status */}
+        {/* Brand & Status (MongoDB LeafyGreen style) */}
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-cyan-500/10 border border-cyan-500/30 rounded-xl text-cyan-400 shadow-lg shadow-cyan-500/10">
+          <div className="p-2 bg-[#00684A]/60 border border-[#00ED64]/40 rounded-xl text-[#00ED64] shadow-sm shadow-[#00ED64]/20">
             <Shield className="w-6 h-6 animate-pulse" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="font-bold text-lg tracking-tight bg-gradient-to-r from-cyan-400 via-sky-300 to-emerald-400 bg-clip-text text-transparent">
-                Aegis AI Threat Intelligence
+            <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+              <h1 className="font-bold text-base sm:text-lg tracking-tight text-white whitespace-nowrap flex items-center gap-1.5">
+                Aegis <span className="text-[#00ED64]">Threat Intelligence</span>
               </h1>
-              <span className="px-2 py-0.5 text-[10px] font-mono font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full">
-                PORTFOLIO EDITION
+              <span className="px-2 py-0.5 text-[10px] font-mono font-bold bg-[#00ED64]/20 text-[#00ED64] border border-[#00ED64]/40 rounded-full whitespace-nowrap">
+                MONGODB THEME
               </span>
             </div>
-            <p className="text-xs text-slate-400 flex items-center gap-2 font-mono">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-ping" />
+            <p className="text-xs text-slate-300 flex items-center gap-2 font-mono">
+              <span className="w-2 h-2 rounded-full bg-[#00ED64] inline-block animate-ping" />
               <span>SOC PLATFORM OPERATIONAL</span>
-              <span className="text-slate-600">|</span>
-              <span className="text-cyan-400">ML INFERENCE ENGINE ACTIVE</span>
+              <span className="text-slate-500">|</span>
+              <span className="text-[#00ED64]">ML INFERENCE ACTIVE</span>
             </p>
           </div>
         </div>
@@ -48,16 +48,18 @@ export default function Header({ activeTab, setActiveTab, liveAlertCount = 0 }) 
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 whitespace-nowrap ${
+                className={`relative px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 flex items-center gap-1.5 whitespace-nowrap ${
                   isActive
-                    ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 shadow-sm shadow-cyan-500/20'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60 border border-transparent'
+                    ? 'bg-[#00ED64] text-[#001E2B] shadow-sm shadow-[#00ED64]/30 font-bold'
+                    : 'text-slate-300 hover:text-white hover:bg-[#003847]/70 border border-transparent'
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-cyan-400' : 'text-slate-500'}`} />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#001E2B]' : 'text-slate-400'}`} />
                 <span>{tab.label}</span>
                 {tab.badge > 0 && (
-                  <span className="ml-1 px-1.5 py-0.2 text-[10px] font-mono font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40 rounded-full">
+                  <span className={`ml-1 px-1.5 py-0.2 text-[10px] font-mono font-bold rounded-full ${
+                    isActive ? 'bg-[#001E2B] text-[#00ED64]' : 'bg-rose-500 text-white'
+                  }`}>
                     {tab.badge}
                   </span>
                 )}

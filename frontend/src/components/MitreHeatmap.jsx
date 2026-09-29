@@ -29,22 +29,22 @@ export default function MitreHeatmap() {
   const [selectedTech, setSelectedTech] = useState(TECHNIQUES_DATA[0]);
 
   return (
-    <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-6">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+    <div className="glass-panel rounded-2xl p-6 border border-[#E1E8E5] bg-white space-y-6 shadow-sm">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[#E1E8E5] pb-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-            <Cpu className="w-5 h-5 text-cyan-400" />
+          <h2 className="text-lg font-bold text-[#001E2B] flex items-center gap-2">
+            <Cpu className="w-5 h-5 text-[#00684A]" />
             MITRE ATT&CK Evidence-Gated Heatmap
           </h2>
-          <p className="text-xs text-slate-400 font-mono">
+          <p className="text-xs text-[#5C6C64] font-mono">
             Strict evidence gating — techniques are only highlighted when concrete event threshold proof exists.
           </p>
         </div>
         <div className="flex items-center gap-2 font-mono text-xs">
-          <span className="px-2.5 py-1 bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 rounded-lg">
+          <span className="px-2.5 py-1 bg-[#E6F4EA] text-[#00684A] border border-[#C1E7D0] font-bold rounded-lg">
             11 TTPs MAPPED
           </span>
-          <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 rounded-lg">
+          <span className="px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold rounded-lg">
             0 SPECULATIVE MAPPINGS
           </span>
         </div>
@@ -55,10 +55,10 @@ export default function MitreHeatmap() {
         {TACTIC_COLUMNS.map((tactic) => {
           const techs = TECHNIQUES_DATA.filter(t => t.tactic_id === tactic.id);
           return (
-            <div key={tactic.id} className="bg-slate-900/80 rounded-xl border border-slate-800/80 p-3 space-y-3">
-              <div className="border-b border-slate-800 pb-2">
-                <span className="text-[10px] font-mono text-cyan-400 block font-semibold">{tactic.id}</span>
-                <h3 className="text-xs font-bold text-slate-200 truncate">{tactic.name}</h3>
+            <div key={tactic.id} className="bg-[#F9FBF9] rounded-xl border border-[#E1E8E5] p-3 space-y-3 shadow-xs">
+              <div className="border-b border-[#E1E8E5] pb-2">
+                <span className="text-[10px] font-mono text-[#00684A] font-bold block">{tactic.id}</span>
+                <h3 className="text-xs font-bold text-[#001E2B] truncate">{tactic.name}</h3>
               </div>
 
               <div className="space-y-2">
@@ -71,28 +71,28 @@ export default function MitreHeatmap() {
                         onClick={() => setSelectedTech(tech)}
                         className={`w-full text-left p-2.5 rounded-lg border transition-all duration-150 font-mono text-xs space-y-1 ${
                           isSelected
-                            ? 'bg-cyan-500/20 border-cyan-400 text-slate-100 shadow-md shadow-cyan-500/10'
-                            : 'bg-slate-950/70 border-slate-800 hover:border-slate-700 text-slate-300'
+                            ? 'bg-[#E6F4EA] border-[#00684A] text-[#001E2B] shadow-sm font-bold'
+                            : 'bg-white border-[#E1E8E5] hover:border-[#00684A]/40 text-[#1C2D27]'
                         }`}
                       >
                         <div className="flex items-center justify-between text-[11px]">
-                          <span className="font-bold text-cyan-300">{tech.id}</span>
-                          <span className="px-1.5 py-0.2 rounded text-[9px] bg-slate-800 text-slate-400">
+                          <span className="font-bold text-[#00684A]">{tech.id}</span>
+                          <span className="px-1.5 py-0.2 rounded text-[9px] bg-[#F0F4F2] text-[#5C6C64] font-semibold">
                             {tech.hits} hits
                           </span>
                         </div>
-                        <div className="text-[11px] font-sans font-medium text-slate-200 leading-tight truncate">
+                        <div className="text-[11px] font-sans font-semibold text-[#001E2B] leading-tight truncate">
                           {tech.name}
                         </div>
-                        <div className="text-[9px] text-emerald-400 flex items-center gap-1">
-                          <CheckCircle2 className="w-2.5 h-2.5 text-emerald-400" />
+                        <div className="text-[9px] text-[#00684A] font-bold flex items-center gap-1">
+                          <CheckCircle2 className="w-2.5 h-2.5 text-[#00684A]" />
                           <span>Evidenced</span>
                         </div>
                       </button>
                     );
                   })
                 ) : (
-                  <div className="text-[11px] text-slate-600 font-mono italic text-center py-4">
+                  <div className="text-[11px] text-[#5C6C64] font-mono italic text-center py-4">
                     No active hits
                   </div>
                 )}
@@ -104,26 +104,26 @@ export default function MitreHeatmap() {
 
       {/* Technique Evidence Detail Panel */}
       {selectedTech && (
-        <div className="p-4 bg-slate-900/90 rounded-xl border border-slate-800 text-xs font-mono space-y-2">
+        <div className="p-4 bg-[#E6F4EA] rounded-xl border border-[#C1E7D0] text-xs font-mono space-y-2 text-[#001E2B]">
           <div className="flex items-center justify-between">
-            <span className="font-bold text-cyan-400 text-sm flex items-center gap-2">
-              <Info className="w-4 h-4 text-cyan-400" />
+            <span className="font-bold text-[#00684A] text-sm flex items-center gap-2">
+              <Info className="w-4 h-4 text-[#00684A]" />
               {selectedTech.id}: {selectedTech.name}
             </span>
-            <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">
+            <span className="px-2 py-0.5 rounded bg-[#00684A] text-white text-[10px] font-bold">
               EVIDENCE VERIFIED
             </span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[#1C2D27]">
             <div>
-              <span className="text-slate-500 block text-[10px]">REQUIRED EVIDENCE RULE:</span>
-              <code className="text-amber-300 bg-slate-950 px-2 py-1 rounded block mt-1 border border-slate-800">
+              <span className="text-[#5C6C64] block text-[10px] font-bold">REQUIRED EVIDENCE RULE:</span>
+              <code className="text-[#00684A] bg-white px-2.5 py-1 rounded block mt-1 border border-[#C1E7D0] font-bold">
                 {selectedTech.evidence}
               </code>
             </div>
             <div>
-              <span className="text-slate-500 block text-[10px]">DETECTION NOTE:</span>
-              <p className="text-slate-300 mt-1 font-sans">
+              <span className="text-[#5C6C64] block text-[10px] font-bold">DETECTION NOTE:</span>
+              <p className="text-[#1C2D27] mt-1 font-sans font-medium">
                 Evidence-gated detection. This technique is only triggered when field-level thresholds pass verification.
               </p>
             </div>

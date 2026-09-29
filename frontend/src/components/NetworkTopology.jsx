@@ -23,8 +23,8 @@ export default function NetworkTopology({ currentEvent = null }) {
       { source: 'work-1', target: 'srv-http', value: 2 },
       { source: 'work-2', target: 'srv-http', value: 2 },
       { source: 'work-1', target: 'ext-clean', value: 1 },
-      { source: 'ext-mal1', target: 'gw-1', value: 5, color: '#EF4444' },
-      { source: 'ext-mal2', target: 'gw-1', value: 5, color: '#F59E0B' },
+      { source: 'ext-mal1', target: 'gw-1', value: 5, color: '#E11D48' },
+      { source: 'ext-mal2', target: 'gw-1', value: 5, color: '#D97706' },
       { source: 'work-2', target: 'ext-mal1', value: 4, color: '#DC2626' },
     ];
 
@@ -33,7 +33,7 @@ export default function NetworkTopology({ currentEvent = null }) {
       const dstId = 'active-dst';
       nodes.push({ id: srcId, name: `Event Source (${currentEvent.src_ip})`, group: currentEvent.is_anomaly ? 'threat' : 'internal', val: 11 });
       nodes.push({ id: dstId, name: `Target (${currentEvent.dst_ip}:${currentEvent.dst_port})`, group: 'internal', val: 10 });
-      links.push({ source: srcId, target: dstId, value: 6, color: currentEvent.risk_score >= 80 ? '#EF4444' : '#00F0FF' });
+      links.push({ source: srcId, target: dstId, value: 6, color: currentEvent.risk_score >= 80 ? '#E11D48' : '#00684A' });
     }
 
     return { nodes, links };
@@ -41,36 +41,36 @@ export default function NetworkTopology({ currentEvent = null }) {
 
   const getNodeColor = (node) => {
     switch (node.group) {
-      case 'gateway': return '#00F0FF';
-      case 'internal': return '#10B981';
-      case 'workstation': return '#38BDF8';
-      case 'threat': return '#EF4444';
-      case 'benign': return '#94A3B8';
-      default: return '#64748B';
+      case 'gateway': return '#00684A';
+      case 'internal': return '#13AA52';
+      case 'workstation': return '#00ED64';
+      case 'threat': return '#E11D48';
+      case 'benign': return '#64748B';
+      default: return '#5C6C64';
     }
   };
 
   return (
-    <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-4">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+    <div className="glass-panel rounded-2xl p-6 border border-[#E1E8E5] bg-white space-y-4 shadow-sm">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[#E1E8E5] pb-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-            <Network className="w-5 h-5 text-cyan-400" />
+          <h2 className="text-lg font-bold text-[#001E2B] flex items-center gap-2">
+            <Network className="w-5 h-5 text-[#00684A]" />
             Live Network Topology & Threat Map
           </h2>
-          <p className="text-xs text-slate-400 font-mono">
+          <p className="text-xs text-[#5C6C64] font-mono">
             Interactive force-directed graph (react-force-graph-2d). Drag nodes to reposition.
           </p>
         </div>
-        <div className="flex items-center gap-4 text-xs font-mono">
-          <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block" /> Gateway</div>
-          <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" /> Internal Core</div>
-          <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" /> Threat Source</div>
+        <div className="flex items-center gap-4 text-xs font-mono font-semibold text-[#001E2B]">
+          <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#00684A] inline-block" /> Gateway</div>
+          <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#13AA52] inline-block" /> Internal Core</div>
+          <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#E11D48] inline-block" /> Threat Source</div>
         </div>
       </div>
 
       {/* Canvas Wrapper */}
-      <div className="h-[400px] w-full bg-slate-950/90 rounded-xl overflow-hidden border border-slate-800/80 relative">
+      <div className="h-[400px] w-full bg-[#F9FBF9] rounded-xl overflow-hidden border border-[#E1E8E5] relative">
         <ForceGraph2D
           graphData={graphData}
           nodeAutoColorBy="group"
@@ -82,21 +82,21 @@ export default function NetworkTopology({ currentEvent = null }) {
           nodeCanvasObject={(node, ctx, globalScale) => {
             const label = node.name;
             const fontSize = 11 / globalScale;
-            ctx.font = `${fontSize}px JetBrains Mono, sans-serif`;
+            ctx.font = `600 ${fontSize}px Inter, sans-serif`;
             const color = getNodeColor(node);
 
             // Draw Node Circle
             ctx.beginPath();
             ctx.arc(node.x, node.y, node.val, 0, 2 * Math.PI, false);
             ctx.fillStyle = color;
-            ctx.shadowColor = color;
-            ctx.shadowBlur = 10;
+            ctx.shadowColor = 'rgba(0, 30, 43, 0.15)';
+            ctx.shadowBlur = 6;
             ctx.fill();
 
             // Draw Label text
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillStyle = '#E2E8F0';
+            ctx.fillStyle = '#001E2B';
             ctx.fillText(label, node.x, node.y + node.val + 8);
           }}
         />

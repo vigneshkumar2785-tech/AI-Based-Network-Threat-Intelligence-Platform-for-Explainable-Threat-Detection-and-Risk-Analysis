@@ -2,7 +2,7 @@ import React from 'react';
 import { Activity, ShieldAlert, AlertTriangle, Database, Zap, Cpu, ArrowUpRight } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 
-const THREAT_COLORS = ['#00F0FF', '#F59E0B', '#EF4444', '#A855F7', '#EC4899', '#10B981'];
+const THREAT_COLORS = ['#00684A', '#13AA52', '#00ED64', '#D97706', '#E11D48', '#023430'];
 
 export default function DashboardSummary({ summaryData }) {
   const metrics = summaryData?.metrics || {
@@ -27,47 +27,47 @@ export default function DashboardSummary({ summaryData }) {
     <div className="space-y-6">
       {/* 4 Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
-          <div className="flex items-center justify-between text-slate-400 font-mono text-xs">
+        <div className="glass-panel p-5 rounded-2xl border border-[#E1E8E5] bg-white space-y-2 shadow-sm">
+          <div className="flex items-center justify-between text-[#5C6C64] font-mono text-xs">
             <span>TOTAL EVENTS</span>
-            <Activity className="w-4 h-4 text-cyan-400" />
+            <Activity className="w-4 h-4 text-[#00684A]" />
           </div>
-          <div className="text-2xl font-bold font-mono text-slate-100">{metrics.total_events.toLocaleString()}</div>
-          <div className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
-            <ArrowUpRight className="w-3 h-3" />
+          <div className="text-2xl font-bold font-mono text-[#001E2B]">{metrics.total_events.toLocaleString()}</div>
+          <div className="text-[11px] text-[#00684A] font-mono font-medium flex items-center gap-1">
+            <ArrowUpRight className="w-3.5 h-3.5 text-[#00684A]" />
             <span>Real-time Netflow Monitoring</span>
           </div>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
-          <div className="flex items-center justify-between text-slate-400 font-mono text-xs">
+        <div className="glass-panel p-5 rounded-2xl border border-[#E1E8E5] bg-white space-y-2 shadow-sm">
+          <div className="flex items-center justify-between text-[#5C6C64] font-mono text-xs">
             <span>ANOMALIES DETECTED</span>
-            <Zap className="w-4 h-4 text-amber-400" />
+            <Zap className="w-4 h-4 text-amber-600" />
           </div>
-          <div className="text-2xl font-bold font-mono text-amber-400">{metrics.total_anomalies.toLocaleString()}</div>
-          <div className="text-[10px] text-amber-400 font-mono">
+          <div className="text-2xl font-bold font-mono text-amber-700">{metrics.total_anomalies.toLocaleString()}</div>
+          <div className="text-[11px] text-amber-700 font-mono font-medium">
             Isolation Forest Anomaly Rate: 6.7%
           </div>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
-          <div className="flex items-center justify-between text-slate-400 font-mono text-xs">
+        <div className="glass-panel p-5 rounded-2xl border border-[#E1E8E5] bg-white space-y-2 shadow-sm">
+          <div className="flex items-center justify-between text-[#5C6C64] font-mono text-xs">
             <span>ACTIVE INCIDENTS</span>
-            <AlertTriangle className="w-4 h-4 text-rose-400" />
+            <AlertTriangle className="w-4 h-4 text-rose-600" />
           </div>
-          <div className="text-2xl font-bold font-mono text-rose-400">{metrics.active_incidents}</div>
-          <div className="text-[10px] text-rose-400 font-mono">
+          <div className="text-2xl font-bold font-mono text-rose-700">{metrics.active_incidents}</div>
+          <div className="text-[11px] text-rose-700 font-mono font-medium">
             3 Critical, 2 High Priority
           </div>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
-          <div className="flex items-center justify-between text-slate-400 font-mono text-xs">
+        <div className="glass-panel p-5 rounded-2xl border border-[#E1E8E5] bg-white space-y-2 shadow-sm">
+          <div className="flex items-center justify-between text-[#5C6C64] font-mono text-xs">
             <span>AVG RISK SCORE</span>
-            <ShieldAlert className="w-4 h-4 text-purple-400" />
+            <ShieldAlert className="w-4 h-4 text-[#00684A]" />
           </div>
-          <div className="text-2xl font-bold font-mono text-slate-100">{metrics.avg_risk_score}/100</div>
-          <div className="text-[10px] text-purple-400 font-mono">
+          <div className="text-2xl font-bold font-mono text-[#001E2B]">{metrics.avg_risk_score}/100</div>
+          <div className="text-[11px] text-[#00684A] font-mono font-medium">
             Weighted Risk Scoring Engine
           </div>
         </div>
@@ -76,23 +76,23 @@ export default function DashboardSummary({ summaryData }) {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Distribution Bar Chart */}
-        <div className="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
-          <h3 className="text-sm font-bold font-mono text-slate-200">Threat Distribution Breakdown</h3>
+        <div className="glass-panel p-6 rounded-2xl border border-[#E1E8E5] bg-white space-y-4 shadow-sm">
+          <h3 className="text-sm font-bold font-mono text-[#001E2B]">Threat Distribution Breakdown</h3>
           <div className="h-[220px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
-                <XAxis dataKey="name" stroke="#64748B" fontSize={10} tickLine={false} />
-                <YAxis stroke="#64748B" fontSize={10} tickLine={false} />
-                <Tooltip contentStyle={{ background: '#0F172A', borderColor: '#334155', color: '#E2E8F0', borderRadius: '8px', fontSize: '12px' }} />
-                <Bar dataKey="value" fill="#00F0FF" radius={[4, 4, 0, 0]} />
+                <XAxis dataKey="name" stroke="#5C6C64" fontSize={10} tickLine={false} />
+                <YAxis stroke="#5C6C64" fontSize={10} tickLine={false} />
+                <Tooltip contentStyle={{ background: '#FFFFFF', borderColor: '#E1E8E5', color: '#001E2B', borderRadius: '8px', fontSize: '12px', boxShadow: '0 4px 12px rgba(0,30,43,0.08)' }} />
+                <Bar dataKey="value" fill="#00684A" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Threat Categories Pie */}
-        <div className="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
-          <h3 className="text-sm font-bold font-mono text-slate-200">Threat Event Mix</h3>
+        <div className="glass-panel p-6 rounded-2xl border border-[#E1E8E5] bg-white space-y-4 shadow-sm">
+          <h3 className="text-sm font-bold font-mono text-[#001E2B]">Threat Event Mix</h3>
           <div className="h-[220px] w-full flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -101,7 +101,7 @@ export default function DashboardSummary({ summaryData }) {
                     <Cell key={`cell-${index}`} fill={THREAT_COLORS[index % THREAT_COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ background: '#0F172A', borderColor: '#334155', color: '#E2E8F0', borderRadius: '8px', fontSize: '12px' }} />
+                <Tooltip contentStyle={{ background: '#FFFFFF', borderColor: '#E1E8E5', color: '#001E2B', borderRadius: '8px', fontSize: '12px', boxShadow: '0 4px 12px rgba(0,30,43,0.08)' }} />
               </PieChart>
             </ResponsiveContainer>
           </div>

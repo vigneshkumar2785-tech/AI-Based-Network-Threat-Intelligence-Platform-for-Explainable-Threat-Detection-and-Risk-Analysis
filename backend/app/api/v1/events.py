@@ -6,7 +6,7 @@ import json
 
 from app.core.database import get_db
 from app.models.db_models import SecurityEvent, Incident, IOCRecord
-from app.schemas.schemas import EventResponse, TriggerEventRequest
+from app.schemas.schemas import EventResponse, TriggerEventRequest, IngestRawEventRequest
 from app.api.deps import get_current_user
 from simulation.network_events.generator import generate_event, GENERATORS
 from app.services.correlator import process_event
@@ -129,3 +129,99 @@ def trigger_synthetic_event(
     db.refresh(sec_event)
 
     return result
+
+
+@router.post("/ingest")
+def ingest_raw_event(
+    req: IngestRawEventRequest,
+    db: Session = Depends(get_db)
+):
+    """
+    Ingest a raw network event (e.g. captured via Wireshark or sent from Postman),
+    normalize fields, run through full correlation pipeline, persist to DB,
+    and return threat intelligence result.
+    """
+    import uuid
+    raw_event = req.dict()
+    raw_event["event_id"] = str(uuid.uuid4())
+    raw_event["timestamp"] = datetime.now(timezone.utc).isoformat()
+    if not raw_event.get("event_type"):
+        raw_event["event_type"] = "external_ingest"
+
+    # Process through full correlation pipeline
+    result = process_event(raw_event, include_xai=True)
+
+    # Persist Event to DB
+    sec_event = SecurityEvent(
+        event_id=result["event_id"],
+        timestamp=datetime.now(timezone.utc),
+        event_type=result["event_type"],
+        src_ip=result["src_ip"],
+        dst_ip=result["dst_ip"],
+        src_port=raw_event.get("src_port"),
+        dst_port=result["dst_port"],
+        protocol=result["protocol"],
+        byte_count=result["byte_count"],
+        packet_count=result["packet_count"],
+        duration_ms=raw_event.get("duration_ms"),
+        is_anomaly=result["is_anomaly"],
+        anomaly_score=result["anomaly_score"],
+        classification=result["classification"],
+        confidence=result["confidence"],
+        risk_score=result["risk_score"],
+        risk_level=result["risk_level"],
+        iocs_json=result["iocs"],
+        mitre_json=result["mitre_techniques"],
+        cve_json=result["cves"],
+        xai_json=result["xai"],
+        raw_event_json=raw_event
+    )
+    db.add(sec_event)
+
+    # Persist IOCs
+    for ioc in result["iocs"]:
+        existing_ioc = db.query(IOCRecord).filter(
+            IOCRecord.ioc_type == ioc["type"],
+            IOCRecord.value == ioc["value"]
+        ).first()
+        if existing_ioc:
+            existing_ioc.last_seen = datetime.now(timezone.utc)
+            existing_ioc.score = max(existing_ioc.score, ioc["score"])
+        else:
+            new_ioc = IOCRecord(
+                ioc_type=ioc["type"],
+                value=ioc["value"],
+                reputation=ioc["reputation"],
+                score=ioc["score"],
+                context=ioc["context"],
+                first_seen=datetime.now(timezone.utc),
+                last_seen=datetime.now(timezone.utc)
+            )
+            db.add(new_ioc)
+
+    # Persist Incident (if not normal or if risk >= 40)
+    inc_data = result["incident"]
+    if result["classification"] != "normal" or result["risk_score"] >= 40.0:
+        db_incident = Incident(
+            incident_id=inc_data["incident_id"],
+            state=inc_data["state"],
+            severity=inc_data["severity"],
+            risk_score=inc_data["risk_score"],
+            risk_level=inc_data["risk_level"],
+            classification=inc_data["classification"],
+            event_id=result["event_id"],
+            src_ip=result["src_ip"],
+            dst_ip=result["dst_ip"],
+            dst_port=result["dst_port"],
+            protocol=result["protocol"],
+            recommended_actions=inc_data["recommended_actions"],
+            mitre_techniques=inc_data["mitre_techniques"],
+            audit_trail=inc_data["audit_trail"]
+        )
+        db.add(db_incident)
+
+    db.commit()
+    db.refresh(sec_event)
+
+    return result
+

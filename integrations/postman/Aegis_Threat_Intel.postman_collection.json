@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "aegis-threat-intel-collection-v1",
+		"name": "Aegis AI Threat Intelligence Platform",
+		"description": "Postman API Integration Collection for external tool demonstration.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Ingest External Wireshark Event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"src_ip\": \"185.220.101.45\",\n  \"dst_ip\": \"10.0.1.50\",\n  \"src_port\": 54321,\n  \"dst_port\": 4444,\n  \"protocol\": \"TCP\",\n  \"byte_count\": 1250,\n  \"packet_count\": 14,\n  \"duration_ms\": 250,\n  \"unique_dst_ports\": 1,\n  \"failed_attempts\": 0,\n  \"dns_query\": \"\",\n  \"connection_interval_std\": 5.2,\n  \"bytes_out_ratio\": 0.95,\n  \"is_external_dst\": 1,\n  \"payload_snippet\": \"C2 Beacon Handshake Captured via External Tool\",\n  \"event_type\": \"external_ingest\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/events/ingest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"events",
+						"ingest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Trigger Synthetic Event (Port Scan)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"event_type\": \"port_scan\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/events/trigger",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"events",
+						"trigger"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Get Dashboard Summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard/summary",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"events"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
